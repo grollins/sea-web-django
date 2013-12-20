@@ -1,4 +1,7 @@
 *.log
 *.pot
 *.pyc
-local_settings.py
+.DS_STORE
+seaweb_project/assets
+seaweb_project/media
+docs

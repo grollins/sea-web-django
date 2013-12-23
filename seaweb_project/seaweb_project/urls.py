@@ -9,7 +9,7 @@ from jobs.views import JobViewSet, UserViewSet, ResultViewSet
 
 
 router = DefaultRouter()
-router.register(r'jobs', JobViewSet)
+router.register(r'jobs', JobViewSet, base_name='job')
 router.register(r'results', ResultViewSet)
 router.register(r'users', UserViewSet)
 

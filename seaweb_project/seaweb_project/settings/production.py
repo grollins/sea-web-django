@@ -20,7 +20,7 @@ def get_env_setting(setting):
 
 ########## HOST CONFIGURATION
 # See: https://docs.djangoproject.com/en/1.5/releases/1.5/#allowed-hosts-required-in-production
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['seaweb.grollins.webfactional.com']
 ########## END HOST CONFIGURATION
 
 ########## EMAIL CONFIGURATION
@@ -28,16 +28,16 @@ ALLOWED_HOSTS = []
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#email-host
-EMAIL_HOST = environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_HOST = get_env_setting('SEAWEB_EMAIL_HOST')
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#email-host-password
-EMAIL_HOST_PASSWORD = environ.get('EMAIL_HOST_PASSWORD', get_env_setting('EMAIL_PWD'))
+EMAIL_HOST_PASSWORD = get_env_setting('SEAWEB_EMAIL_PWD')
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#email-host-user
-EMAIL_HOST_USER = environ.get('EMAIL_HOST_USER', 'your_email@example.com')
+EMAIL_HOST_USER = get_env_setting('SEAWEB_EMAIL_USER')
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#email-port
-EMAIL_PORT = environ.get('EMAIL_PORT', 587)
+EMAIL_PORT = get_env_setting('SEAWEB_EMAIL_PORT')
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#email-subject-prefix
 EMAIL_SUBJECT_PREFIX = '[%s] ' % SITE_NAME
@@ -54,11 +54,11 @@ DATABASES = {
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'seaweb_db',
-            'USER': 'seadjango',
-            'PASSWORD': '',
-            'HOST': 'localhost',
-            'PORT': '',
+            'NAME': get_env_setting('SEAWEB_DB_NAME'),
+            'USER': get_env_setting('SEAWEB_DB_USER'),
+            'PASSWORD': get_env_setting('SEAWEB_DB_PWD'),
+            'HOST': get_env_setting('SEAWEB_DB_HOST'),
+            'PORT': get_env_setting('SEAWEB_DB_PORT'),
         }
     }
 }

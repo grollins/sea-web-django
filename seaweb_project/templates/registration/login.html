@@ -2,8 +2,7 @@
 {% load i18n %}
 {% block title %}{% trans "Login" %}{% endblock %}
 {% block content %}
-{% url 'auth_password_reset' as auth_pwd_reset_url %}
-{% url 'registration_register' as register_url%}
+{% url 'password_change' as pw_change_url %}
 
 {% if form.errors %}
 <p>There was an error with your username and password. Please try again.</p>
@@ -11,7 +10,7 @@
 
 <div id="login_form">
     <form method="post" action="{% url 'auth_login' %}">{% csrf_token %}
-        <table>
+    <table>
         <tr>
             <td>{% trans form.username.label_tag %}</td>
             <td>{{ form.username }}</td>
@@ -20,14 +19,13 @@
             <td>{% trans form.password.label_tag %}</td>
             <td>{{ form.password }}</td>
         </tr>
+        <tr>
+            <td></td>
+            <td><input class="btn btn-lg btn-primary btn-block" type="submit" value="login" /></td>
+        </tr>
     </table>
-    <input class="btn btn-default btn-block" type="submit" value="login" />
-    <input type="hidden" name="next" value="{{ next }}" />
+    <input type="hidden" name="next" value="{{ pw_change_url }}" />
     </form>
-    <ul id="login_links" class="pull-left">
-        <li><a href="{{ auth_pwd_reset_url }}">Forgot your password?</a></li>
-        <li><a href="{{ register_url }}">Need an account</a>?</li>
-    </ul>
 </div>
 
 {% endblock %}

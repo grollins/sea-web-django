@@ -2,15 +2,16 @@
 {% load i18n %}
 {% block title %}{% trans "Home" %}{% endblock %}
 {% block content %}
-{% url 'auth_logout' as auth_logout_url %}
-{% url 'auth_password_change' as pw_url %}
-<h4>You've successfully logged in!</h4>
-<p>There's nothing much to see here. This is just the account management page. Please visit the SEA-web job submission site to create and manage SEA-web jobs.</p>
-
-<p>Want to <a href="{{ pw_url }}">change your password?</a></p>
-
-<form method="post" action="{{ auth_logout_url }}">{% csrf_token %}
-    <input type="submit" value="logout">
-</form>
+{% url 'auth_login' as auth_login %}
+{% url 'password_reset' as pw_reset_url %}
+{% url 'registration_register' as register_url %}
+{% if user.is_authenticated %}
+<p>Hi, {{ user.username }}</p>
+{% endif %}
+<ul id="account_links">
+    <li><a href="{{ auth_login }}">Login and change your password?</a></li>
+    <li><a href="{{ pw_reset_url }}">Forgot your password?</a></li>
+    <li><a href="{{ register_url }}">Need an account?</a></li>
+</ul>
 {% endblock %}
 

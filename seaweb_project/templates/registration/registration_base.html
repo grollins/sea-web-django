@@ -1,13 +1,32 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block body %}
-    <div class="container">
-        <div class="jumbotron">
-            <h1>SEA-web Accounts</h1>
-        </div>
-
-        <div class="content">
-            {% block content %}{% endblock %}
-        </div>
+{% url 'accounts_home' as home_url %}
+{% url 'auth_logout' as auth_logout %}
+<div class="container">
+    <div class="header">
+        <ul class="nav nav-pills pull-right">
+            <li>
+                <a href="{{ home_url }}">Accounts Home</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li>
+                <form method="post" action="{{ auth_logout }}">{% csrf_token %}
+                    <input class="btn btn-danger" type="submit" value="Logout">
+                </form>
+            </li>
+            {% endif %}
+        </ul>
+        <h1 class="text-muted">SEA-web Accounts</h1>
     </div>
+
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <div class="footer">
+      <span>&copy; <a href="http://geoffrollins.com">Geoff Rollins</a>, 2013</span>
+      <span class="pull-right">Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a> and <a href="http://angularjs.org/" target="_blank">AngularJS</a>.</span>
+    </div>
+</div>
 {% endblock %}

@@ -203,7 +203,8 @@ THIRD_PARTY_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'registration'
+    'registration',
+    'django_browserid',
 )
 
 # Apps specific for this project go here.
@@ -259,7 +260,6 @@ REST_FRAMEWORK = {
     'PAGINATE_BY': 100,
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication'
     )
 }
 
@@ -267,3 +267,10 @@ LOGIN_REDIRECT_URL = '/accounts/home'
 
 # registration
 ACCOUNT_ACTIVATION_DAYS = 3
+
+BROWSERID_CREATE_USER = True
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'django_browserid.auth.BrowserIDBackend',
+)

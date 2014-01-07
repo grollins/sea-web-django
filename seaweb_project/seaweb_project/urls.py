@@ -24,7 +24,7 @@ urlpatterns = patterns('',
 
 urlpatterns += patterns('',
     url(r'^api-token-auth/', 'rest_framework.authtoken.views.obtain_auth_token'),
-    url(r'^login$', 'jobs.views.login', name='login')
+    url(r'^login/$', 'jobs.views.login', name='login')
 )
 
 urlpatterns += patterns('backend.views',

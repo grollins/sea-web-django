@@ -19,11 +19,16 @@ class JobViewSet(viewsets.ModelViewSet):
 
     def pre_save(self, obj):
         obj.owner = self.request.user
+        obj.status = Job.STATUS.submitted
 
     def post_save(self, obj, created=False):
         if created:
-            obj.status = 'Queued'
-            run_sea_calculation.delay(obj.id)
+            try:
+                run_sea_calculation.delay(obj.id)
+            except:
+                obj.status = Job.STATUS.error
+                obj.save()
+                raise
 
     def get_queryset(self):
             """

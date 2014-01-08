@@ -8,43 +8,13 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Job'
-        db.create_table(u'jobs_job', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('status', self.gf('model_utils.fields.StatusField')(default='submitted', max_length=100, no_check_for_status=True)),
-            ('status_changed', self.gf('model_utils.fields.MonitorField')(default=datetime.datetime.now, monitor=u'status')),
-            ('title', self.gf('django.db.models.fields.CharField')(default='', max_length=100, blank=True)),
-            ('structure', self.gf('django.db.models.fields.files.FileField')(max_length=100)),
-            ('topology', self.gf('django.db.models.fields.files.FileField')(max_length=100)),
-            ('iterations', self.gf('django.db.models.fields.IntegerField')(default=10)),
-            ('owner', self.gf('django.db.models.fields.related.ForeignKey')(related_name='jobs', to=orm['auth.User'])),
-            ('created_on', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-        ))
-        db.send_create_signal(u'jobs', ['Job'])
-
-        # Adding model 'Result'
-        db.create_table(u'jobs_result', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('job', self.gf('django.db.models.fields.related.ForeignKey')(related_name='result', to=orm['jobs.Job'])),
-            ('gb', self.gf('django.db.models.fields.FloatField')(default=0.0)),
-            ('non_polar', self.gf('django.db.models.fields.FloatField')(default=0.0)),
-            ('reaction_field', self.gf('django.db.models.fields.FloatField')(default=0.0)),
-            ('solvent_intershell', self.gf('django.db.models.fields.FloatField')(default=0.0)),
-            ('solvent_intrashell', self.gf('django.db.models.fields.FloatField')(default=0.0)),
-            ('solvent_solute', self.gf('django.db.models.fields.FloatField')(default=0.0)),
-            ('total', self.gf('django.db.models.fields.FloatField')(default=0.0)),
-            ('sasa', self.gf('django.db.models.fields.FloatField')(default=0.0)),
-            ('shell_zero_waters', self.gf('django.db.models.fields.FloatField')(default=0.0)),
-        ))
-        db.send_create_signal(u'jobs', ['Result'])
+        # Adding unique constraint on 'Job', fields ['owner', 'title']
+        db.create_unique(u'jobs_job', ['owner_id', 'title'])
 
 
     def backwards(self, orm):
-        # Deleting model 'Job'
-        db.delete_table(u'jobs_job')
-
-        # Deleting model 'Result'
-        db.delete_table(u'jobs_result')
+        # Removing unique constraint on 'Job', fields ['owner', 'title']
+        db.delete_unique(u'jobs_job', ['owner_id', 'title'])
 
 
     models = {
@@ -85,7 +55,7 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         u'jobs.job': {
-            'Meta': {'ordering': "('created_on',)", 'object_name': 'Job'},
+            'Meta': {'ordering': "('created_on',)", 'unique_together': "(('owner', 'title'),)", 'object_name': 'Job'},
             'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'iterations': ('django.db.models.fields.IntegerField', [], {'default': '10'}),

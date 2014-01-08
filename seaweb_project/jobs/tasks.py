@@ -18,8 +18,7 @@ def run_simple_calculation(job_id):
         lines = f.readlines()
         num_lines = len(lines)
     sleep(30.) # seconds
-    status = 'Done'
-    job.status = status
+    job.status = Job.STATUS.done
     job.save()
     return num_lines
 
@@ -40,11 +39,11 @@ def run_sea_calculation(job_id):
         output_str = subprocess.check_output(arg_list, stderr=subprocess.STDOUT)
         output = parse_sea_output(output_str)
         create_result_obj(job, output)
-        status = 'Done'
+        status = Job.STATUS.done
     except subprocess.CalledProcessError, e:
         output_str = "There was an error:\n%s" % e.output
         output_str += "return code: %s\n" % e.returncode
-        status = 'Error'
+        status = Job.STATUS.error
 
     sleep(10.) # seconds
     job.status = status

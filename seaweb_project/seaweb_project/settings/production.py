@@ -51,15 +51,13 @@ SERVER_EMAIL = EMAIL_HOST_USER
 
 ########## DATABASE CONFIGURATION
 DATABASES = {
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': get_env_setting('SEAWEB_DB_NAME'),
-            'USER': get_env_setting('SEAWEB_DB_USER'),
-            'PASSWORD': get_env_setting('SEAWEB_DB_PWD'),
-            'HOST': get_env_setting('SEAWEB_DB_HOST'),
-            'PORT': get_env_setting('SEAWEB_DB_PORT'),
-        }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': get_env_setting('SEAWEB_DB_NAME'),
+        'USER': get_env_setting('SEAWEB_DB_USER'),
+        'PASSWORD': get_env_setting('SEAWEB_DB_PWD'),
+        'HOST': get_env_setting('SEAWEB_DB_HOST'),
+        'PORT': get_env_setting('SEAWEB_DB_PORT'),
     }
 }
 ########## END DATABASE CONFIGURATION

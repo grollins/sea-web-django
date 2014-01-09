@@ -202,7 +202,6 @@ THIRD_PARTY_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'registration',
     'django_browserid',
 )
 
@@ -261,11 +260,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     )
 }
-
-LOGIN_REDIRECT_URL = '/accounts/home'
-
-# registration
-ACCOUNT_ACTIVATION_DAYS = 3
 
 BROWSERID_CREATE_USER = True
 

@@ -20,7 +20,7 @@ def get_env_setting(setting):
 
 ########## HOST CONFIGURATION
 # See: https://docs.djangoproject.com/en/1.5/releases/1.5/#allowed-hosts-required-in-production
-ALLOWED_HOSTS = ['seaweb.grollins.webfactional.com']
+ALLOWED_HOSTS = ['api.seaweb.grollins.webfactional.com']
 ########## END HOST CONFIGURATION
 
 ########## EMAIL CONFIGURATION
@@ -79,3 +79,7 @@ CACHES = {
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 SECRET_KEY = get_env_setting('DJANGO_SECRET_KEY')
 ########## END SECRET CONFIGURATION
+
+CORS_ORIGIN_WHITELIST = (
+    'seaweb.grollins.webfactional.com'
+)

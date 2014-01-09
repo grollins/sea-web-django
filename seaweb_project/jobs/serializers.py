@@ -18,6 +18,26 @@ class JobSerializer(serializers.HyperlinkedModelSerializer):
                   'iterations', 'result')
         read_only_fields = ('status',)
 
+    def validate_structure(self, attrs, source):
+        """
+        Check that structure file is a gro file.
+        """
+        uploaded_file = attrs[source]
+        if uploaded_file.name.endswith('.gro'):
+            return attrs
+        else:
+            raise serializers.ValidationError('Structure file must be a .gro file.')
+
+    def validate_topology(self, attrs, source):
+        """
+        Check that topology file is a top file.
+        """
+        uploaded_file = attrs[source]
+        if uploaded_file.name.endswith('.top'):
+            return attrs
+        else:
+            raise serializers.ValidationError('Topology file must be a .top file.')
+
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     jobs = serializers.HyperlinkedRelatedField(many=True, view_name='job-detail')

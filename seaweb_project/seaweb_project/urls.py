@@ -23,7 +23,7 @@ urlpatterns += patterns('backend.views',
     url(r'^admin/', include(admin.site.urls))
 )
 
-urlpatterns = patterns('',
+urlpatterns += patterns('',
     (r'^robots\.txt$',
      lambda r: HttpResponse("User-agent: *\nDisallow: /", mimetype="text/plain"))
 )

@@ -81,3 +81,12 @@ SECRET_KEY = get_env_setting('DJANGO_SECRET_KEY')
 CORS_ORIGIN_WHITELIST = (
     'seaweb.grollins.webfactional.com'
 )
+
+# ========================
+# = CELERY CONFIGURATION =
+# ========================
+BROKER_HOST = "localhost"
+BROKER_PORT = 11143
+BROKER_USER = get_env_setting('SEAWEB_RABBITMQ_USER')
+BROKER_PASSWORD = get_env_setting('SEAWEB_RABBITMQ_PWD')
+BROKER_VHOST = get_env_setting('SEAWEB_RABBITMQ_VHOST')

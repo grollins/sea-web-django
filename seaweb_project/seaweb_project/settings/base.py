@@ -270,3 +270,10 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'django_browserid.auth.BrowserIDBackend',
 )
+
+# ========================
+# = CELERY CONFIGURATION =
+# ========================
+CELERY_ACCEPT_CONTENT = ['json',]
+CELERY_TASK_SERIALIZER = 'json'
+CELERYD_TASK_TIME_LIMIT = 300

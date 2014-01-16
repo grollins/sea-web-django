@@ -72,6 +72,8 @@ CORS_ORIGIN_WHITELIST = (
     '127.0.0.1:9000/'
 )
 
+# ========================
+# = CELERY CONFIGURATION =
+# ========================
 BROKER_URL = 'amqp://guest:guest@localhost:5672/'
-CELERY_ACCEPT_CONTENT = ['json',]
-CELERY_TASK_SERIALIZER = 'json'
+

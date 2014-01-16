@@ -71,6 +71,7 @@ DEBUG_TOOLBAR_CONFIG = {
 CORS_ORIGIN_WHITELIST = (
     '127.0.0.1:9000/'
 )
+API_AUDIENCE = 'http://127.0.0.1:9000'
 
 # ========================
 # = CELERY CONFIGURATION =

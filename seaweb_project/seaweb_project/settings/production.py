@@ -79,8 +79,10 @@ SECRET_KEY = get_env_setting('DJANGO_SECRET_KEY')
 ########## END SECRET CONFIGURATION
 
 CORS_ORIGIN_WHITELIST = (
-    'seaweb.grollins.webfactional.com'
+    'seaweb.grollins.webfactional.com/'
 )
+
+API_AUDIENCE = 'http://seaweb.grollins.webfactional.com'
 
 # ========================
 # = CELERY CONFIGURATION =

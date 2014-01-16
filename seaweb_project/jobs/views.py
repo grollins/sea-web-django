@@ -1,5 +1,7 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from django.conf import settings
+
 from rest_framework import status, permissions, renderers, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -70,7 +72,7 @@ def login(request):
             status.HTTP_400_BAD_REQUEST
         )
     # TODO: Get audience from settings
-    audience = 'http://127.0.0.1:9000'
+    audience = settings.API_AUDIENCE
     try:
         user = authenticate(
             assertion=assertion,

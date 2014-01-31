@@ -6,10 +6,10 @@ from tempfile import mkdtemp
 from shutil import copyfile, rmtree
 import logging
 
+from django.conf import settings
 from .models import Job, Result
 from .parser import parse_sea_output
 
-SEA_PATH = os.path.expanduser("~/SEA")
 
 @shared_task()
 def run_simple_calculation(job_id):
@@ -31,7 +31,7 @@ def run_sea_calculation(job_id):
     temp_topo_path = temp_path + '.top'
     copyfile(job.structure.path, temp_struct_path)
     copyfile(job.topology.path, temp_topo_path)
-    solvate_cmd = os.path.join(SEA_PATH, "bin", "solvate")
+    solvate_cmd = os.path.join(settings.SEA_HOME, "bin", "solvate")
     input_path = temp_path
     arg_list = [solvate_cmd, "-s", input_path, "-i", str(job.iterations)]
     logging.info( "%s" % ' '.join(arg_list))

@@ -5,6 +5,13 @@ from os.path import abspath, basename, dirname, join, normpath
 from sys import path
 from django.core.exceptions import ImproperlyConfigured
 
+def get_env_setting(setting):
+    """ Get the environment setting or return exception """
+    try:
+        return environ[setting]
+    except KeyError:
+        error_msg = "Set the %s env variable" % setting
+        raise ImproperlyConfigured(error_msg)
 
 ########## PATH CONFIGURATION
 # Absolute filesystem path to the Django project directory:
@@ -110,10 +117,7 @@ STATICFILES_FINDERS = (
 ########## SECRET CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 # Note: This key should only be used for development and testing.
-try:
-    SECRET_KEY = environ['DJANGO_SECRET_KEY']
-except KeyError:
-    raise ImproperlyConfigured("Set the environmental variable")
+SECRET_KEY = get_env_setting('DJANGO_SECRET_KEY')
 ########## END SECRET CONFIGURATION
 
 
@@ -235,14 +239,42 @@ LOGGING = {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': join(SITE_ROOT, 'error.log'),
+        },
+        'browserid_file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': join(SITE_ROOT, 'browserid.log'),
+        },
+        'console':{
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler'
         }
     },
     'loggers': {
         'django.request': {
-            'handlers': ['mail_admins'],
+            'handlers': ['file'],
             'level': 'ERROR',
             'propagate': True,
         },
+        'login.audience': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'django_browserid.base': {
+            'handlers': ['browserid_file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django_browserid': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        }
     }
 }
 ########## END LOGGING CONFIGURATION
@@ -265,6 +297,7 @@ REST_FRAMEWORK = {
 }
 
 BROWSERID_CREATE_USER = True
+BROWSERID_DISABLE_CERT_CHECK = True
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -277,3 +310,5 @@ AUTHENTICATION_BACKENDS = (
 CELERY_ACCEPT_CONTENT = ['json',]
 CELERY_TASK_SERIALIZER = 'json'
 CELERYD_TASK_TIME_LIMIT = 300
+
+SEA_HOME = get_env_setting('SEAHOME')

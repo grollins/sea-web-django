@@ -76,5 +76,4 @@ API_AUDIENCE = 'http://127.0.0.1:9000'
 # ========================
 # = CELERY CONFIGURATION =
 # ========================
-BROKER_URL = 'amqp://guest:guest@localhost:5672/'
-
+BROKER_URL = 'redis://localhost:6379/0'

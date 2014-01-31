@@ -1,3 +1,6 @@
+import logging
+import requests
+
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.conf import settings
@@ -14,6 +17,7 @@ from .permissions import IsOwner
 from .serializers import JobSerializer, UserSerializer, ResultSerializer
 from .tasks import run_sea_calculation
 
+login_logger = logging.getLogger('login.audience')
 
 class JobViewSet(viewsets.ModelViewSet):
     serializer_class = JobSerializer
@@ -71,21 +75,48 @@ def login(request):
             'assertion parameter is missing',
             status.HTTP_400_BAD_REQUEST
         )
-    # TODO: Get audience from settings
     audience = settings.API_AUDIENCE
+    login_logger.error(audience)
+    try:
+        page = requests.post('https://verifier.login.persona.org/verify',
+                             verify=True,
+                             data={ "assertion": assertion,
+                                    "audience": audience})
+        data = page.json()
+    except requests.exceptions.SSLError:
+        login_logger.error("Failed login\n%s\n" % request.META)
+        return Response(
+            'SSL failure',
+            status.HTTP_501_NOT_IMPLEMENTED,
+        )
+    except requests.exceptions.ConnectionError:
+        login_logger.error("Failed login\n%s\n" % request.META)
+        return Response(
+            'Failed to contact authentication server',
+            status.HTTP_502_BAD_GATEWAY,
+        )
+
     try:
         user = authenticate(
             assertion=assertion,
             audience=audience,
         )
-        return Response({
-            'email': user.email,
-            'token': get_auth_token(user),
-        })
-    except BrowserIDException:
+        if user:
+            return Response({
+                'email': user.email,
+                'token': get_auth_token(user),
+            })
+        else:
+            return Response(
+                'Authentication failed',
+                status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+    except BrowserIDException as e:
+        login_logger.error("Failed login\n%s\n" % request.META)
+        login_logger.error("%s" % type(e.exc))
         return Response(
-            'Authentication failed',
-            status.HTTP_500_INTERNAL_SERVER_ERROR,
+            'Failed to contact authentication server',
+            status.HTTP_503_SERVICE_UNAVAILABLE,
         )
 
 def get_auth_token(user):

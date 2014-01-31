@@ -1,6 +1,5 @@
 """Production settings and globals."""
 
-
 from os import environ
 
 from base import *
@@ -11,33 +10,12 @@ from django.core.exceptions import ImproperlyConfigured
 
 ########## HOST CONFIGURATION
 # See: https://docs.djangoproject.com/en/1.5/releases/1.5/#allowed-hosts-required-in-production
-ALLOWED_HOSTS = ['.seaweb.grollins.webfactional.com']
+ALLOWED_HOSTS = ['127.0.0.1']
 ########## END HOST CONFIGURATION
 
 ########## EMAIL CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#email-host
-EMAIL_HOST = get_env_setting('SEAWEB_EMAIL_HOST')
-
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#email-host-password
-EMAIL_HOST_PASSWORD = get_env_setting('SEAWEB_EMAIL_PWD')
-
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#email-host-user
-EMAIL_HOST_USER = get_env_setting('SEAWEB_EMAIL_USER')
-
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#email-port
-EMAIL_PORT = get_env_setting('SEAWEB_EMAIL_PORT')
-
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#email-subject-prefix
-EMAIL_SUBJECT_PREFIX = '[%s] ' % SITE_NAME
-
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#email-use-tls
-EMAIL_USE_TLS = True
-
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#server-email
-SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ########## END EMAIL CONFIGURATION
 
 ########## DATABASE CONFIGURATION
@@ -70,7 +48,7 @@ SECRET_KEY = get_env_setting('DJANGO_SECRET_KEY')
 ########## END SECRET CONFIGURATION
 
 CORS_ORIGIN_WHITELIST = (
-    'seaweb.grollins.webfactional.com/'
+    'seaweb.grollins.webfactional.com'
 )
 
 API_AUDIENCE = 'http://seaweb.grollins.webfactional.com'
@@ -79,4 +57,3 @@ API_AUDIENCE = 'http://seaweb.grollins.webfactional.com'
 # = CELERY CONFIGURATION =
 # ========================
 BROKER_URL = 'redis://localhost:6379/0'
-

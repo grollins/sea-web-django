@@ -5,22 +5,10 @@ from time import sleep
 from tempfile import mkdtemp
 from shutil import copyfile, rmtree
 import logging
-
 from django.conf import settings
+
 from .models import Job, Result
 from .parser import parse_sea_output
-
-
-@shared_task()
-def run_simple_calculation(job_id):
-    job = Job.objects.get(pk=job_id)
-    with open(job.structure.name, 'r') as f:
-        lines = f.readlines()
-        num_lines = len(lines)
-    sleep(30.) # seconds
-    job.status = Job.STATUS.done
-    job.save()
-    return num_lines
 
 @shared_task()
 def run_sea_calculation(job_id):
@@ -49,6 +37,8 @@ def run_sea_calculation(job_id):
     job.status = status
     job.save()
     rmtree(temp_dir)
+    job.structure.delete()
+    job.topology.delete()
     return "%s\n%s" % (status, output_str)
 
 def create_result_obj(job, output):

@@ -21,6 +21,11 @@ class Job(StatusModel):
     structure = models.FileField(upload_to='tmp/%Y/%m/%d')
     topology = models.FileField(upload_to='tmp/%Y/%m/%d')
     iterations = models.IntegerField(default=10)
+    CALC_TYPE = Choices('dipole', 'quadrupole')
+    calculation_type = models.CharField(
+                        choices=CALC_TYPE, default=CALC_TYPE.dipole,
+                        max_length=20)
+    surface_detail = models.IntegerField(default=8)
     owner = models.ForeignKey('auth.User', related_name='jobs')
     created_on = models.DateTimeField(auto_now_add=True)
 

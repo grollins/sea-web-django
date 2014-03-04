@@ -15,8 +15,9 @@ class JobSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Job
         fields = ('id', 'url', 'title', 'status', 'owner', 'structure', 'topology',
-                  'iterations', 'calculation_type', 'surface_detail', 'result')
-        read_only_fields = ('status',)
+                  'structure_filename', 'topology_filename', 'iterations',
+                  'calculation_type', 'surface_detail', 'result')
+        read_only_fields = ('status', 'structure_filename', 'topology_filename')
 
     def validate_structure(self, attrs, source):
         """

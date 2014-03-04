@@ -20,6 +20,8 @@ class Job(StatusModel):
     title = models.CharField(max_length=100, blank=True, default='')
     structure = models.FileField(upload_to='tmp/%Y/%m/%d')
     topology = models.FileField(upload_to='tmp/%Y/%m/%d')
+    structure_filename = models.CharField(max_length=100, default='')
+    topology_filename = models.CharField(max_length=100, default='')
     iterations = models.IntegerField(default=10)
     CALC_TYPE = Choices('dipole', 'quadrupole')
     calculation_type = models.CharField(

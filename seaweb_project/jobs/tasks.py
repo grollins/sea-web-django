@@ -19,6 +19,8 @@ def run_sea_calculation(job_id):
     temp_topo_path = temp_path + '.top'
     copyfile(job.structure.path, temp_struct_path)
     copyfile(job.topology.path, temp_topo_path)
+    job.structure_filename = os.path.basename(job.structure.path)
+    job.topology_filename = os.path.basename(job.topology.path)
     solvate_cmd = os.path.join(settings.SEA_HOME, "bin", "solvate")
     input_path = temp_path
 

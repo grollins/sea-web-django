@@ -47,11 +47,8 @@ CACHES = {
 SECRET_KEY = get_env_setting('DJANGO_SECRET_KEY')
 ########## END SECRET CONFIGURATION
 
-CORS_ORIGIN_WHITELIST = (
-    'seaweb.grollins.webfactional.com'
-)
-
-API_AUDIENCE = 'http://seaweb.grollins.webfactional.com'
+CORS_ORIGIN_WHITELIST = ('sea.dillgroup.io',)
+API_AUDIENCE = 'sea.dillgroup.io'
 
 # ========================
 # = CELERY CONFIGURATION =
